@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './index.html',
+    './src/**/*.{js,ts,jsx,tsx}',
+  ],
   theme: {
     extend: {
       colors: {
@@ -16,6 +19,10 @@ export default {
           DEFAULT: '#FF0000', // Red from logo
           dark: '#CC0000',
         }
+      },
+      container: {
+        center: true,
+        padding: '1rem',
       },
       keyframes: {
         'logo-pulse-1': {
