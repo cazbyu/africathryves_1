@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Menu, X } from 'lucide-react';
 import MegaMenu from './MegaMenu';
@@ -6,13 +6,33 @@ import MegaMenu from './MegaMenu';
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
+  const hideTimeout = useRef<NodeJS.Timeout>();
+  const navRef = useRef<HTMLDivElement>(null);
+  const megaMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(e.target as Node) &&
+          megaMenuRef.current && !megaMenuRef.current.contains(e.target as Node)) {
+        setActiveMegaMenu(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleMenuHover = (menuType: string) => {
+    if (hideTimeout.current) {
+      clearTimeout(hideTimeout.current);
+    }
     setActiveMegaMenu(menuType);
   };
 
   const handleMenuLeave = () => {
-    setActiveMegaMenu(null);
+    hideTimeout.current = setTimeout(() => {
+      setActiveMegaMenu(null);
+    }, 300); // Increased delay for better UX
   };
 
   const handleMobileMenuItemClick = (menuType: string) => {
@@ -56,7 +76,7 @@ const Header = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center space-x-8" ref={navRef}>
             <div 
               className="group relative"
               onMouseEnter={() => handleMenuHover('how-we-create-change')}
@@ -192,11 +212,18 @@ const Header = () => {
 
       {/* Mega Menu Container */}
       {activeMegaMenu && (
-        <MegaMenu 
-          isOpen={true}
-          onClose={handleMenuLeave}
-          menuType={activeMegaMenu}
-        />
+        <div 
+          ref={megaMenuRef}
+          onMouseEnter={() => handleMenuHover(activeMegaMenu)}
+          onMouseLeave={handleMenuLeave}
+        >
+          <MegaMenu 
+            isOpen={true}
+            onClose={() => setActiveMegaMenu(null)}
+            menuType={activeMegaMenu}
+            onLinkClick={handleLinkClick}
+          />
+        </div>
       )}
     </header>
   );

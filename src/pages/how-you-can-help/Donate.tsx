@@ -50,10 +50,10 @@ const Donate = () => {
                 <div className="flex items-start">
                   <Info className="w-5 h-5 text-blue-600 mt-1 mr-3 flex-shrink-0" />
                   <p className="text-sm text-blue-900">
-                    Your contribution is NOT tax-deductible. We are a for-profit company with a strong 
-                    social impact mission. We have begun the 501c3 process to accommodate donors who 
-                    need the tax benefits of a contribution. Any contributions will be used for training or 
-                    education opportunities for budding African entrepreneurs.
+                    Your contribution is not tax-deductible.
+                    Africa Thryves is a for-profit social impact company. We've recently begun the process of applying for 501(c)(3) nonprofit status to accommodate donors who seek tax benefits.
+
+                    All contributions will go directly toward training, education, and human capital development for African entrepreneurs.
                   </p>
                 </div>
               </div>

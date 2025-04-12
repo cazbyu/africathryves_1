@@ -41,7 +41,7 @@ Deno.serve(async (req) => {
         currency: 'usd',
         product_data: {
           name: item.name,
-          description: item.type === 'donation' ? 'Supporting African entrepreneurs' : undefined,
+          description: item.description,
         },
         unit_amount: Math.round(item.price * 100), // Convert to cents
       },

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingCart, X, Plus, Minus, DollarSign } from 'lucide-react';
+import { ShoppingCart, X, Plus, Minus, DollarSign, Info } from 'lucide-react';
 import useCartStore from '../store/cartStore';
-import { stripePromise, createPaymentSession } from '../lib/stripe';
 
 const Cart: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -50,40 +49,8 @@ const Cart: React.FC = () => {
   const handleCheckout = async () => {
     if (items.length === 0) return;
     
-    try {
-      setIsLoading(true);
-      setError(null);
-
-      const stripe = await stripePromise;
-      if (!stripe) {
-        throw new Error('Payment service is not available');
-      }
-
-      const session = await createPaymentSession(items);
-      
-      if (session.url) {
-        window.location.href = session.url;
-      } else if (session.sessionId) {
-        const result = await stripe.redirectToCheckout({
-          sessionId: session.sessionId
-        });
-
-        if (result.error) {
-          throw new Error(result.error.message);
-        }
-      } else {
-        throw new Error('Invalid response from payment service');
-      }
-    } catch (err) {
-      console.error('Checkout error:', err);
-      setError(
-        err instanceof Error 
-          ? err.message 
-          : 'Could not connect to payment service. Please try again later.'
-      );
-    } finally {
-      setIsLoading(false);
-    }
+    setError('Checkout functionality is temporarily unavailable');
+    setIsLoading(false);
   };
 
   if (!isOpen) {
@@ -107,7 +74,7 @@ const Cart: React.FC = () => {
   const total = getTotalAmount();
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="absolute right-0 top-0 bottom-0 w-full md:w-96 bg-white">
         <div className="flex flex-col h-full">
           <div className="p-4 border-b flex justify-between items-center">
@@ -121,6 +88,16 @@ const Cart: React.FC = () => {
           </div>
 
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            {/* Impact Statement */}
+            <div className="bg-blue-50 p-4 rounded-lg mb-4">
+              <div className="flex items-start space-x-2">
+                <Info className="w-5 h-5 text-blue-600 mt-1 flex-shrink-0" />
+                <p className="text-sm text-blue-900">
+                  💡 Your purchase helps us build "Perpetual Principle" — a reinvestment fund used to launch and sustain African-owned businesses that create lasting impact.
+                </p>
+              </div>
+            </div>
+
             {items.length === 0 ? (
               <p className="text-center text-gray-500">Your cart is empty</p>
             ) : (
@@ -238,7 +215,7 @@ const Cart: React.FC = () => {
                   <span>Processing...</span>
                 </div>
               ) : (
-                'Proceed to Checkout'
+                'Checkout Temporarily Unavailable'
               )}
             </button>
           </div>

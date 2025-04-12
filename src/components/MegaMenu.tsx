@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface Section {
   title: string;
@@ -29,6 +29,7 @@ const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose, menuType, onLinkCl
   const [activeSection, setActiveSection] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (menuType) {
@@ -44,6 +45,14 @@ const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose, menuType, onLinkCl
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
+
+  const handleLinkClick = (path: string) => {
+    if (onLinkClick) {
+      onLinkClick();
+    }
+    onClose();
+    navigate(path);
+  };
 
   const menuContent: Record<string, MenuContent> = {
     'how-we-create-change': {
@@ -107,6 +116,12 @@ const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose, menuType, onLinkCl
           description: 'Read inspiring stories and insights about African entrepreneurship.',
           image: 'https://images.unsplash.com/photo-1593697821252-0d9a24b58da2',
           path: '/why-it-matters/blog'
+        },
+        {
+          title: 'FAQs',
+          description: 'Find answers to commonly asked questions about Africa Thryves and our impact.',
+          image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0',
+          path: '/why-it-matters/faqs'
         }
       ]
     },
@@ -131,7 +146,7 @@ const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose, menuType, onLinkCl
         {
           title: 'Apparel',
           description: 'Show your support with our branded merchandise.',
-          image: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c',
+          image: 'https://szcngfdwlktwaefirtux.supabase.co/storage/v1/object/public/public-assets//hoodie-mockup-of-a-woman-playing-with-her-dog-in-the-woods-2781-el1.png',
           path: '/how-you-can-help/apparel'
         },
         {
@@ -167,8 +182,8 @@ const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose, menuType, onLinkCl
         isAnimating ? 'translate-y-1 opacity-0' : 'translate-y-0 opacity-100'
       }`}
       style={{ top: '100%' }}
-      onMouseEnter={() => {}} 
-      onMouseLeave={onClose}
+      role="navigation"
+      aria-label={`${content.title} menu`}
     >
       <div className="container mx-auto">
         <div className="grid grid-cols-12 gap-8 py-12">
@@ -186,18 +201,18 @@ const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose, menuType, onLinkCl
           <div className="col-span-5">
             <nav className="space-y-4">
               {content.sections.map((section, index) => (
-                <Link
+                <button
                   key={section.title}
-                  to={section.path || '#'}
-                  className={`block group transition-colors ${content.textColor} hover:opacity-90`}
+                  onClick={() => section.path && handleLinkClick(section.path)}
+                  className={`block w-full text-left group transition-colors ${content.textColor} hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-white/50 rounded`}
                   onMouseEnter={() => setActiveSection(index)}
-                  onClick={onLinkClick}
+                  onFocus={() => setActiveSection(index)}
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-lg font-medium">{section.title}</span>
                     <ChevronRight className={`w-5 h-5 opacity-0 transform translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200`} />
                   </div>
-                </Link>
+                </button>
               ))}
             </nav>
           </div>
@@ -212,7 +227,7 @@ const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose, menuType, onLinkCl
                     alt={currentSection.title}
                     className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-black/20" />
+                  <div className={`absolute inset-0 ${content.bgColor} opacity-30`} />
                 </div>
                 <h3 className={`text-xl font-semibold ${content.textColor} mb-2`}>
                   {currentSection.title}

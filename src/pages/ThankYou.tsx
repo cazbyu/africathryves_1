@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { CheckCircle, XCircle, ArrowRight, ShoppingCart, Heart } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const ThankYou = () => {
   const [searchParams] = useSearchParams();
@@ -39,38 +39,30 @@ const ThankYou = () => {
               <div className="bg-green-500 h-2" />
               <div className="p-8">
                 <div className="text-center mb-8">
-                  <div className="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <CheckCircle className="w-10 h-10 text-green-500" />
-                  </div>
-                  <h1 className="text-3xl font-bold text-gray-900 mb-4">
-                    Thank You for Your Support!
-                  </h1>
-                  <p className="text-gray-600 mb-6">
-                    Your payment has been processed successfully. Your contribution will help 
-                    empower African entrepreneurs to create sustainable businesses and transform 
-                    communities.
+                  <p className="text-xl text-gray-900 mb-8">
+                    Thank you for your support! Together, we're empowering entrepreneurs.
                   </p>
-                  <div className="flex items-center justify-center text-green-600 mb-6">
-                    <Heart className="w-5 h-5 mr-2" />
-                    <span>Making a difference together</span>
+                  <img 
+                    src="https://szcngfdwlktwaefirtux.supabase.co/storage/v1/object/public/public-assets//Thank%20You%20for%20Purchases_Entrepreneur-01.png"
+                    alt="Thank you for your purchase"
+                    className="w-full max-w-md mx-auto mb-8"
+                  />
+                  <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
+                    <Link
+                      to="/"
+                      className="bg-primary text-black px-8 py-3 rounded-full hover:bg-primary-dark transition-colors flex items-center"
+                    >
+                      Return Home
+                      <ArrowRight className="ml-2 w-5 h-5" />
+                    </Link>
+                    <Link
+                      to="/how-you-can-help"
+                      className="text-gray-700 hover:text-gray-900 transition-colors flex items-center"
+                    >
+                      More Ways to Help
+                      <ArrowRight className="ml-2 w-4 h-4" />
+                    </Link>
                   </div>
-                </div>
-
-                <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
-                  <Link
-                    to="/"
-                    className="bg-primary text-black px-8 py-3 rounded-full hover:bg-primary-dark transition-colors flex items-center"
-                  >
-                    Return Home
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                  </Link>
-                  <Link
-                    to="/how-you-can-help"
-                    className="text-gray-700 hover:text-gray-900 transition-colors flex items-center"
-                  >
-                    More Ways to Help
-                    <ArrowRight className="ml-2 w-4 h-4" />
-                  </Link>
                 </div>
               </div>
             </div>
@@ -79,9 +71,6 @@ const ThankYou = () => {
               <div className="bg-red-500 h-2" />
               <div className="p-8">
                 <div className="text-center mb-8">
-                  <div className="bg-red-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <XCircle className="w-10 h-10 text-red-500" />
-                  </div>
                   <h1 className="text-3xl font-bold text-gray-900 mb-4">
                     Payment Cancelled
                   </h1>
@@ -94,10 +83,9 @@ const ThankYou = () => {
                 <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
                   <Link
                     to="/cart"
-                    className="bg-red-600 text-white px-8 py-3 rounded-full hover:bg-red-700 transition-colors flex items-center"
+                    className="bg-red-600 text-white px-8 py-3 rounded-full hover:bg-red-700 transition-colors"
                   >
                     Try Again
-                    <ShoppingCart className="ml-2 w-5 h-5" />
                   </Link>
                   <Link
                     to="/"

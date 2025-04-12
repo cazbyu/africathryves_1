@@ -31,6 +31,22 @@ const AfricasPotential = () => {
               </p>
             </section>
             
+            {/* Video Section */}
+            <section>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                Discover Africa's Untapped Business Potential
+              </h2>
+              <div className="relative w-full overflow-hidden pt-[56.25%] rounded-xl shadow-lg">
+                <iframe
+                  className="absolute top-0 left-0 w-full h-full"
+                  src="https://www.youtube.com/embed/DvoFzMXh-cI"
+                  title="Discover Africa's Untapped Business Potential"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            </section>
+            
             <section>
               <h2 className="text-3xl font-bold text-gray-900 mb-4">Key Advantages</h2>
               <div className="space-y-4">
